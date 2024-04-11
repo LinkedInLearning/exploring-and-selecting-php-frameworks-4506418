@@ -20,9 +20,16 @@ RUN apt-get -y update \
 && docker-php-ext-configure intl \
 && docker-php-ext-install intl
 
+RUN pecl channel-update pecl.php.net
+RUN pecl install phalcon
+
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends php8-intl
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+
+# edit the ini files
+RUN rm $PHP_INI_DIR/conf.d/xdebug.ini
+RUN echo "extension=phalcon.so" > $PHP_INI_DIR/conf.d/50phalcon.ini
