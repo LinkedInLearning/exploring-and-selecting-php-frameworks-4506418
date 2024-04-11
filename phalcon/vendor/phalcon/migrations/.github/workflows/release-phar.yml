@@ -1,0 +1,27 @@
+on:
+  push:
+    tags:
+      - '*'
+
+name: Upload Phar to Release
+
+jobs:
+  build:
+    name: Compile and upload Phar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Compile phalcon-migrations.phar
+        run: |
+          composer install --ignore-platform-reqs
+          vendor/bin/box compile
+
+      - name: Check existence of compiled .phar
+        run: test -e phalcon-migrations.phar && exit 0 || exit 10
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: phalcon-migrations.phar

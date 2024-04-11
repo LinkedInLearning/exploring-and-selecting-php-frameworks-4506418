@@ -1,0 +1,5 @@
+{
+    "require": {
+        "aleffe/phalcon-devtools-5.x-fixed": "^5.0"
+    }
+}
